@@ -1,0 +1,64 @@
+<!--This template uses 2 structural directives *ngIf and *ngFor-->
+<div class="pannel panel-primary">
+    <div class="panel-heading">
+        {{title}}
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2">Filter by:</div>
+            <div class="col-md-4">
+                <input type="text" placeholder="Search..."
+                    [(ngModel)]='listFilter'/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Filtered by: {{ listFilter }}</h3>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <!--Expression is evaluated as a true or false value leads to show/hide element from the DOM-->
+            <table class="table" *ngIf="products && products.length">
+                <thead>
+                    <tr>
+                        <th>
+                            <button class="btn btn-primary"
+                                (click)='toggleImage()'>
+                                {{showImage ? 'Hide' : 'Show'}} Image
+                            </button>
+                        </th>
+                        <th>Product</th>
+                        <th>Code</th>
+                        <th>Available</th>
+                        <th>Price</th>
+                        <th>5 Star Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--There is a difference between for of(shows values of an item in an array) Vs for in(shows index# of item in an array-->
+                    <tr *ngFor='let product of filteredProducts'>
+                        <td>
+                            <!--This is called Binding Property-->
+                            <img *ngIf='showImage' 
+                                [src]='product.imageUrl'
+                                [title]='product.productName' 
+                                [style.width.px]='imageWidth'
+                                [style.margin.px]='imageMargin'/>
+                        </td>
+                        <td><a [routerLink]="['/products', product.productId]">{{ product.productName }}</a></td>
+                        <td>{{ product.productCode | lowercase | convertToSpaces: '-'}}</td>
+                        <td>{{ product.releaseDate }}</td>
+                        <!--Example of pipes to perform data transformation-->
+                        <td>{{ product.price | currency:'USD':true:'1.2-2'}}</td>
+                        <!--To access the event payload passed from the event use $even-->
+                        <td><pm-star [rating]='product.starRating'
+                                (ratingClicked)='onRatingClicked($event)'></pm-star></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
