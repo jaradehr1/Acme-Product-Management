@@ -1,4 +1,5 @@
 # Acme Product Management
+As its name implies, this SAP manages a list of products and its details.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.4. (Supported Angular version is 4.3 or higher.)
 
